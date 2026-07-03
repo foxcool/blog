@@ -1,0 +1,9 @@
+public/
+resources/_gen/
+.hugo_build.lock
+
+# Editor/agent local configs
+.claude/
+.cursor/
+.aider*
+.DS_Store

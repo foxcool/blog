@@ -1,0 +1,98 @@
+baseURL = "https://darkfox.info/"
+title = "Foxcool"
+theme = "PaperMod"
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+enableEmoji = true
+
+[pagination]
+  pagerSize = 10
+
+[minify]
+  disableXML = true
+
+[params]
+  env = "production"
+  description = "Personal links, projects and blog"
+  defaultTheme = "dark"
+  disableThemeToggle = false
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowCodeCopyButtons = true
+  ShowRssButtonInSectionTermList = true
+  ShowToc = true
+
+  [params.profileMode]
+    enabled = true
+    title = "Foxcool"
+    subtitle = "Software engineer. Distributed systems, self-hosted infrastructure, sovereignty."
+    [[params.profileMode.buttons]]
+      name = "Posts"
+      url = "posts"
+    [[params.profileMode.buttons]]
+      name = "Links"
+      url = "links"
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/foxcool"
+  [[params.socialIcons]]
+    name = "linkedin"
+    url = "https://www.linkedin.com/in/ababenko/"
+  [[params.socialIcons]]
+    name = "telegram"
+    url = "https://t.me/darkfox_info"
+  [[params.socialIcons]]
+    name = "x"
+    url = "https://x.com/darkfox_info"
+  [[params.socialIcons]]
+    name = "rss"
+    url = "index.xml"
+
+[languages]
+  [languages.en]
+    label = "English"
+    locale = "en"
+    weight = 1
+    [languages.en.menus]
+      [[languages.en.menus.main]]
+        name = "Posts"
+        url = "/posts/"
+        weight = 10
+      [[languages.en.menus.main]]
+        name = "Links"
+        url = "/links/"
+        weight = 20
+
+  [languages.ru]
+    label = "Русский"
+    locale = "ru"
+    weight = 2
+    [languages.ru.params]
+      description = "Личные ссылки, проекты и блог"
+      [languages.ru.params.profileMode]
+        enabled = true
+        title = "Foxcool"
+        subtitle = "Инженер. Распределённые системы, self-hosted инфраструктура, суверенность."
+        [[languages.ru.params.profileMode.buttons]]
+          name = "Посты"
+          url = "posts"
+        [[languages.ru.params.profileMode.buttons]]
+          name = "Ссылки"
+          url = "links"
+    [languages.ru.menus]
+      [[languages.ru.menus.main]]
+        name = "Посты"
+        url = "/ru/posts/"
+        weight = 10
+      [[languages.ru.menus.main]]
+        name = "Ссылки"
+        url = "/ru/links/"
+        weight = 20
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
