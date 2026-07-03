@@ -1,0 +1,53 @@
+# Local development environment.
+# Mirrors the production layout (nginx + kubo behind Traefik), but serves
+# a locally built ../public instead of an Ansible-managed checkout.
+#
+# Usage:
+#   hugo --minify -b https://site-dev.darkfox.info/   # build with dev baseURL
+#   docker compose up -d
+#   docker exec ipfs-dev ipfs add -rQ --cid-version 1 /export/site
+#   open https://site-dev.darkfox.info
+#   open https://ipfs-dev.darkfox.info/ipfs/<CID>/
+
+volumes:
+  ipfs_data:
+
+services:
+  website:
+    image: nginx:1.29-alpine
+    container_name: website-dev
+    restart: unless-stopped
+    volumes:
+      - "../public:/usr/share/nginx/html:ro"
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.website-dev.rule=Host(`${SITE_DOMAIN:-site-dev.darkfox.info}`)"
+      - "traefik.http.routers.website-dev.entrypoints=websecure"
+      - "traefik.http.routers.website-dev.tls.certresolver=myresolver"
+      - "traefik.http.services.website-dev.loadbalancer.server.port=80"
+
+  ipfs:
+    image: ipfs/kubo:v0.42.0
+    container_name: ipfs-dev
+    restart: unless-stopped
+    environment:
+      IPFS_PROFILE: server
+    volumes:
+      - "ipfs_data:/data/ipfs"
+      - "../public:/export/site:ro"
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.ipfs-dev.rule=Host(`${IPFS_DOMAIN:-ipfs-dev.darkfox.info}`)"
+      - "traefik.http.routers.ipfs-dev.entrypoints=websecure"
+      - "traefik.http.routers.ipfs-dev.tls.certresolver=myresolver"
+      - "traefik.http.services.ipfs-dev.loadbalancer.server.port=8080"
+
+networks:
+  proxy:
+    external: true
