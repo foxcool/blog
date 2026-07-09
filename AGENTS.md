@@ -16,7 +16,7 @@ Served at https://darkfox.info and pinned to IPFS (DNSLink `_dnslink.darkfox.inf
 - Local preview: `hugo server -D`
 - Local prod-like sandbox: `deploy/compose.yaml` (nginx + kubo behind the local
   Traefik on the `proxy` network, domains `site-dev.darkfox.info` /
-  `ipfs-dev.darkfox.info` via tailnet DNS rewrite) — see header comment for usage
+  `ipfs-dev.darkfox.info` via private DNS) — see header comment for usage
 - Production build: `hugo --minify` → `public/` (gitignored)
 - Deployment: Ansible role `public_website` in the infra repo clones this repo,
   builds with Hugo in Docker, serves via nginx behind Traefik, pins to IPFS
