@@ -7,7 +7,7 @@ series: ["Fiat for the Self-Sovereign"]
 summary: "Three theories of the origin of money — Menger, chartalism, credit theory — and why fiat is not a bug but a natural evolution. Part 1 of the 'Fiat for the Self-Sovereign' series."
 ---
 
-> Series "Fiat for the Self-Sovereign": **1. Where Money Comes From** · 2. How Fiat Works ([in Russian](/ru/posts/how-fiat-works/), translation coming) · 3. Blockchain, Money, and Governance ([in Russian](/ru/posts/blockchain-money-and-governance/), translation coming)
+> Series "Fiat for the Self-Sovereign": **1. Where Money Comes From** · [2. How Fiat Works]({{< relref "/posts/how-fiat-works" >}}) · [3. Blockchain, Money, and Governance]({{< relref "/posts/blockchain-money-and-governance" >}})
 
 ## Introduction
 
@@ -155,7 +155,7 @@ Fiat is neither an anomaly nor a fraud. It is an evolution from commodity liquid
 
 We've covered *where* money comes from — liquidity, taxes, debt. But *how exactly* does the machine that creates 95% of the money supply work? How does a central bank steer a system in which money is created by commercial banks? And why is this mechanics fundamentally incompatible with trustless?
 
-That is the subject of the second essay: "How Fiat Works" ([in Russian](/ru/posts/how-fiat-works/) for now — translation coming).
+That is the subject of the second essay: ["How Fiat Works"]({{< relref "/posts/how-fiat-works" >}}).
 
 ---
 
