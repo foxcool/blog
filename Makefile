@@ -3,7 +3,7 @@
 DEV_URL = https://site-dev.darkfox.info/
 COMPOSE = docker compose -f deploy/compose.yaml
 
-.PHONY: help serve build dev-build up down ipfs clean
+.PHONY: help serve build dev-build up down ipfs clean check-translation test
 
 help: ## Show available targets
 	@awk 'BEGIN {FS = ":.*## "} /^[a-zA-Z_-]+:.*## / {printf "  %-12s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -25,6 +25,12 @@ down: ## Stop the sandbox
 
 ipfs: ## Add current public/ to the sandbox IPFS node, print CID
 	docker exec ipfs-dev ipfs add -rQ --cid-version 1 /export/site
+
+check-translation: ## Mechanical RU->EN checks (calques, cliches, glossary)
+	python3 scripts/check_translation.py
+
+test: ## Unit tests for helper scripts
+	python3 -m unittest discover -s scripts
 
 clean: ## Remove build output
 	rm -rf public
