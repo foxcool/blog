@@ -399,7 +399,8 @@ author writes content/posts/<slug>/index.md (+ index.ru.md), draft: true
 | IPFS copy depends on the origin for styling and navigation | Censorship resistance (1.1) only partial: menu and language links lead to the blocked origin | ADR-009 (proposed) |
 
 Improvement backlog (search, og:images, resume-as-code, Tor/Yggdrasil
-transports, identity hub) lives in the planning note, not here.
+transports, identity hub) lives in the issue tracker under the
+`project:darkfox-info` label, not here.
 
 ---
 
