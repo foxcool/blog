@@ -1,0 +1,14 @@
+# ru_regex<TAB>en_regex — if the original matches, the translation must too.
+# Russian has no stemming here: write the stem, not a word form.
+хартал	chartalis
+кредитор последней инстанции	lender of last resort
+эффект храповика	ratchet effect
+мультипликатор	multiplier
+товарн\w* (деньг|ликвидност)	commodity
+суверенитет	sovereign
+самосбывающ	self-fulfilling
+неподдельн	unforgeable
+Absatzfähigkeit	saleability
+self-custody	self-custody
+choke point	choke point
+самопринадлеж	self-own

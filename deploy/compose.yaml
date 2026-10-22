@@ -2,10 +2,10 @@
 # Mirrors the production layout (nginx + kubo behind Traefik), but serves
 # a locally built ../public instead of an Ansible-managed checkout.
 #
-# Usage:
-#   hugo --minify -b https://site-dev.darkfox.info/   # build with dev baseURL
-#   docker compose up -d
-#   docker exec ipfs-dev ipfs add -rQ --cid-version 1 /export/site
+# Usage (wrapped by the root Makefile):
+#   make up      # hugo --minify -b https://site-dev.darkfox.info/ + compose up -d
+#   make ipfs    # docker exec ipfs-dev ipfs add -rQ --cid-version 1 /export/site
+#   make down
 #   open https://site-dev.darkfox.info
 #   open https://ipfs-dev.darkfox.info/ipfs/<CID>/
 
