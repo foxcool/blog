@@ -3,11 +3,11 @@ title: "On the Uses and Prospects of Blockchain for Money and Governance"
 date: 2026-03-06
 author: "Alexander Babenko (foxcool)"
 tags: [finance, crypto, monetary-policy, central-banking, defi, governance]
-series: ["Fiat for the Self-Sovereign"]
-summary: "Why blockchain cannot reproduce credit-based money creation directly, what stablecoins and DeFi actually bridge, and why CBDC is a regression. Part 3 of the 'Fiat for the Self-Sovereign' series."
+series: ["Fiat for Self-Owners"]
+summary: "Why blockchain cannot reproduce credit-based money creation directly, what stablecoins and DeFi actually bridge, and why CBDC is a regression. Part 3 of the 'Fiat for Self-Owners' series."
 ---
 
-> Series "Fiat for the Self-Sovereign": [1. Where Money Comes From]({{< relref "/posts/where-money-comes-from" >}}) · [2. How Fiat Works]({{< relref "/posts/how-fiat-works" >}}) · **3. Blockchain, Money, and Governance**
+> Series "Fiat for Self-Owners": [1. Where Money Comes From]({{< relref "/posts/where-money-comes-from" >}}) · [2. How Fiat Works]({{< relref "/posts/how-fiat-works" >}}) · **3. Blockchain, Money, and Governance**
 
 ## Introduction
 
@@ -203,7 +203,7 @@ The likely outcome is a hybrid: state operations on a permissioned layer, anchor
 No one is designing a "crypto-state" — but cost optimization is building its infrastructure. Financial institutions adopt on-chain to cut settlement costs, not out of ideology. The path of least resistance: financial markets → RWA → property registries → government spending. Blockchain lowers the cost of exit — and the exit option disciplines the government. But the rule of law is a requirement, not a consequence: El Salvador adopted Bitcoin as legal tender (substantially curtailed in early 2025 under IMF pressure), yet without the rule of law this created neither transparency nor accountability.
 
 ---
-## Concluding the "Fiat for the Self-Sovereign" series
+## Concluding the "Fiat for Self-Owners" series
 
 Money is a complex, many-sided phenomenon. A system of relationships that has been evolving for thousands of years. Fiat is an institution performing the function of an elastic credit machine, with specific properties and limitations. Cryptocurrencies are not a replacement but a new meta-architecture of parallel institutions — solving some problems while carrying limitations of their own.
 

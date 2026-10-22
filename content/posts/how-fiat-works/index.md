@@ -3,11 +3,11 @@ title: "How Fiat Works"
 date: 2026-02-19
 author: "Alexander Babenko (foxcool)"
 tags: [finance, crypto, monetary-policy, central-banking, defi]
-series: ["Fiat for the Self-Sovereign"]
-summary: "Engineering documentation for the fiat system: credit-based money creation, the M0–M2 hierarchy, central bank tooling, crises and failure modes. Part 2 of the 'Fiat for the Self-Sovereign' series."
+series: ["Fiat for Self-Owners"]
+summary: "Engineering documentation for the fiat system: credit-based money creation, the M0–M2 hierarchy, central bank tooling, crises and failure modes. Part 2 of the 'Fiat for Self-Owners' series."
 ---
 
-> Series "Fiat for the Self-Sovereign": [1. Where Money Comes From]({{< relref "/posts/where-money-comes-from" >}}) · **2. How Fiat Works** · [3. Blockchain, Money, and Governance]({{< relref "/posts/blockchain-money-and-governance" >}})
+> Series "Fiat for Self-Owners": [1. Where Money Comes From]({{< relref "/posts/where-money-comes-from" >}}) · **2. How Fiat Works** · [3. Blockchain, Money, and Governance]({{< relref "/posts/blockchain-money-and-governance" >}})
 
 In the first essay we went through three theories of the origin of money and found that fiat is not an anomaly but a natural evolution from commodity liquidity to credit liquidity. Credit theory holds that money is obligations, not things. That is, money is one representation of private relationships, not something material you can simply appropriate and hold.
 
