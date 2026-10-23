@@ -283,15 +283,22 @@ author writes content/posts/<slug>/index.md (+ index.ru.md), draft: true
 
 ### ADR-006: Absolute baseURL, no relativeURLs
 
-- **Status**: accepted
+- **Status**: accepted; superseded by ADR-009 once that is implemented
 - **Context**: `relativeURLs=true` would make IPFS snapshots fully
   self-contained, but breaks canonical/OG absolute links
-- **Decision**: keep absolute `baseURL = https://darkfox.info/`; IPFS copies
-  reference assets from the canonical origin when browsed via foreign gateways
+- **Decision**: keep absolute `baseURL = https://darkfox.info/`
 - **Consequences**:
   - ➕ SEO correctness; one canonical origin
-  - ➖ IPFS snapshot is not fully standalone on path-based gateways
-    (subdomain/DNSLink gateways unaffected)
+  - ➖ The IPFS copy is not standalone on any gateway. The stylesheet is
+    root-relative (`/assets/css/…`), so path gateways
+    (`<gateway>/ipns/darkfox.info/`) serve pages unstyled. Menu, home and
+    language links are absolute, so on subdomain/DNSLink gateways they lead
+    back to the origin
+  - ➖ Conflicts with the censorship-resistance requirement (1.1): with the
+    origin blocked, the IPFS copy cannot be navigated through the menu
+- **Revised 2026-10-08**: the original version claimed that assets load from
+  the canonical origin and that subdomain/DNSLink gateways are unaffected;
+  the build output shows otherwise (consequences above)
 
 ### ADR-007: Bind-mount the stable parent directory into kubo
 
@@ -305,6 +312,79 @@ author writes content/posts/<slug>/index.md (+ index.ru.md), draft: true
   - ➕ Mount survives any number of rebuilds without container restarts
   - ➖ Container sees slightly more than it strictly needs (read-only)
 
+### ADR-008: Wiki features on Hugo instead of a wiki-native generator
+
+- **Status**: accepted (implementation pending)
+- **Context**: posts originate in an Obsidian vault and link to each other
+  with `[[wikilinks]]`; a set of interlinked articles also wants backlinks
+  and callouts. Quartz 4 provides all of this out of the box; Astro was the
+  other candidate considered for wiki-like sites
+- **Decision**: stay on Hugo and add the missing pieces with render hooks
+  and a publishing preprocessor:
+  - the preprocessor (part of the vault → repo export) rewrites syntax only:
+    `[[note|alias]]` → `[alias](<content path>)`, using a vault-name → slug
+    table built from the vault frontmatter
+  - `_markup/render-link.html` resolves the target with `GetPage`, which
+    looks only in the current language; a missing page (unpublished or
+    untranslated) renders as plain text
+  - `_markup/render-blockquote.html` renders `> [!NOTE]` alerts — the same
+    syntax as Obsidian callouts
+  - backlinks: a partial that scans `site.RegularPages` for links to the
+    current page
+  - graph view and hover previews only once the site has dozens of
+    interlinked pages
+- **Alternatives**:
+  - Quartz 4 publishes a vault folder as is and has one locale per site:
+    the en/ru setup with hreflang would be lost, and curated translated
+    content (EN is not a mirror of RU) does not fit the publish-a-folder
+    model
+  - Astro has proper i18n, but wikilinks, backlinks and graph are still own
+    code (`remark-wiki-link` plus own indexing), on top of rewriting the
+    theme and moving the deploy build from the Hugo image to Node
+  - Neither fixes IPFS self-containment by itself (see ADR-009)
+- **Consequences**:
+  - ➕ No migration: deploy role, theme and i18n stay as they are
+  - ➕ Links to unpublished or untranslated pages degrade to text without
+    per-translation manual editing
+  - ➕ Checked on Hugo 0.165 in a scratch site (flat pages, en/ru): link
+    resolution, alerts and backlinks take about 15 lines of templates
+  - ➖ Goldmark does not parse `[[...]]`, so the preprocessor is own code
+  - ➖ The backlinks scan is O(n²) over pages; irrelevant below a few hundred
+  - **Retreat path**: if a digital garden appears (dozens of interlinked
+    notes where the network matters more than the feed), build it with
+    Quartz into a subdirectory of this site — one deploy, one CID — instead
+    of migrating the blog
+
+### ADR-009: Separate relative-URL build for the IPFS pin
+
+- **Status**: proposed; supersedes ADR-006 when implemented
+- **Context**: under ADR-006 the IPFS copy depends on the origin for
+  styling (path gateways) and navigation (all gateways), which defeats
+  requirement 1.1. A single build cannot serve both: menu links become
+  relative only with `baseURL = "/"`, which also makes canonical, OG and
+  JSON-LD URLs relative, while RSS and sitemap need absolute URLs. With
+  `baseURL = "/"` PaperMod's BreadcrumbList JSON-LD also loses a comma
+  between items and `--minify` fails (Hugo 0.165, checked 2026-10-08)
+- **Decision**: build twice from the same commit:
+  - HTTPS build — unchanged (absolute `baseURL`), served by nginx
+  - IPFS build — `baseURL = "/"` with `relativeURLs = true` into a sibling
+    output directory under `/opt/public-website`, pinned and published via
+    DNSLink
+  - override `_partials/head.html` (canonical) and
+    `_partials/templates/schema_json.html` (JSON-LD, breadcrumb comma) to
+    take the origin from a site param, so both stay absolute in both builds
+- **Consequences**:
+  - ➕ The IPFS copy is navigable on any gateway and without the origin
+  - ➕ Canonical still points every copy at `https://darkfox.info`
+  - ➕ Compatible with ADR-007: the second output lives under the same
+    stable mounted parent
+  - ➖ Two builds per deploy, a second Makefile target, a changed pin path
+    in the deploy role
+  - ➖ `head.html` is overridden as a whole file, so upstream PaperMod
+    changes to it have to be merged by hand on submodule bumps
+  - ➖ RSS and sitemap in the IPFS build carry relative URLs; acceptable,
+    feeds are consumed from the origin
+
 ---
 
 ## 10. Risks and Technical Debt
@@ -315,9 +395,12 @@ author writes content/posts/<slug>/index.md (+ index.ru.md), draft: true
 | Single IPFS node | IPFS copy offline if VPS down | Optional second pin (another node or service) later |
 | Public mirror not yet configured | No offsite copy | One-time push-mirror setup (pending) |
 | kubo GC not scheduled | Unpinned CIDs linger | `ipfs repo gc` periodic or `--enable-gc`; low urgency at 5 GB cap |
+| PaperMod uses Hugo APIs deprecated in 0.158 (`.Language.LanguageCode` etc.) | Deploy build breaks on the Hugo release that removes them; prod image is pinned (0.163.3) and bumped by Renovate PRs that merge unbuilt while there is no CI | Bump the PaperMod submodule together with Hugo; run `make build` on Renovate PRs until CI exists |
+| IPFS copy depends on the origin for styling and navigation | Censorship resistance (1.1) only partial: menu and language links lead to the blocked origin | ADR-009 (proposed) |
 
 Improvement backlog (search, og:images, resume-as-code, Tor/Yggdrasil
-transports, identity hub) lives in the planning note, not here.
+transports, identity hub) lives in the issue tracker under the
+`project:darkfox-info` label, not here.
 
 ---
 
@@ -336,7 +419,7 @@ transports, identity hub) lives in the planning note, not here.
 
 ---
 
-**Document Version**: 1.0
-**Last Updated**: 2026-07-09
+**Document Version**: 1.1
+**Last Updated**: 2026-10-08
 **Owner**: foxcool
 **Status**: Active
