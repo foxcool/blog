@@ -131,7 +131,7 @@ In Menger's terms, ETH acquires liquidity through adoption. But its saleability 
 
 In Knapp's terms, EIP-1559 (2021) creates an *analog* of tax demand. The base fee is burned forever. To use Ethereum, you are obligated to pay in ETH. The coercion is not governmental but *architectural*: built into the protocol, not into law. Validators are a kind of "stationary bandit" in Mancur Olson's terms: they extract rent but have a stake in the system's prosperity.
 
-A caveat: with the Pectra upgrade (2025) and account abstraction (EIP-4337), users can pay for gas in USDC or DAI via a *paymaster*. At first glance this kills the chartalist analogy. But the chain goes: user pays USDC → paymaster converts it to ETH → the base fee is burned *in ETH*. The paymaster is a currency exchange booth at the entrance to the tax office, not the abolition of the tax. Account abstraction reduces the *visible* demand for ETH, but not the *structural* one.
+A caveat: with account abstraction (ERC-4337, deployed off-protocol in 2023) and EIP-7702 in the Pectra upgrade (2025), users can pay for gas in USDC or DAI via a *paymaster*. At first glance this kills the chartalist analogy. But the chain goes: user pays USDC → paymaster converts it to ETH → the base fee is burned *in ETH*. The paymaster is a currency exchange booth at the entrance to the tax office, not the abolition of the tax. Account abstraction reduces the *visible* demand for ETH, but not the *structural* one.
 
 Under credit theory, ETH doesn't fit. It is not created through credit and not destroyed when obligations are repaid. Fee burn is supply deflation, not de-issuance in the credit sense.
 
@@ -169,4 +169,5 @@ Sources:
 - Bank of England, "Money creation in the modern economy" (2014)
 - Eichengreen, "Globalizing Capital" (2008)
 - EIP-1559
-- EIP-4337
+- ERC-4337
+- EIP-7702
